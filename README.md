@@ -13,7 +13,6 @@ This project aims to make a simple CLI that manage Tasks. This project was built
 - **Maven**
 - **IntelliJ IDEA**
 - **JSON**
-
 ---
 
 ## tinyjtt CLI: Installation and Uninstallation Guide
@@ -72,5 +71,5 @@ This script will remove all tinyjtt files and configurations from your system.
 This project is open-source and can be freely modified.
 
 ---
-Created by **[Shiwa](https://github.com/luisfelipegraciolli)** 🚀
+Created by **[Shiwa](https://github.com/luisfelipegraciolli)** for the [roadmaps.sh Backend Projects](https://roadmap.sh/projects/task-tracker)🚀
 
