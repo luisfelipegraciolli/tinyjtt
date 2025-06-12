@@ -61,9 +61,9 @@ public class TaskList {
 
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(filePath), tasks);
-            System.out.println("Arquivo JSON salvo com sucesso em: " + new File(filePath).getAbsolutePath());
+            System.out.println("JSON File successfully created at: " + new File(filePath).getAbsolutePath());
         } catch (IOException e) {
-            System.err.println("Erro ao salvar arquivo JSON: " + e.getMessage());
+            System.err.println("Error: " + e.getMessage());
         }
     }
 
@@ -74,13 +74,12 @@ public class TaskList {
         if (file.exists()) {
             try {
                 tasks = objectMapper.readValue(file, objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Task.class));
-                System.out.println("Tarefas carregadas de: " + filePath);
+                System.out.println("Tasks loaded from: " + filePath);
             } catch (IOException e) {
-                System.err.println("Erro ao carregar o arquivo: " + e.getMessage());
+                System.err.println("Error while loading: " + e.getMessage());
             }
         } else {
-            System.out.println("Arquivo não encontrado. Criando nova lista.");
-            tasks = new ArrayList<>();
+            System.out.println("File not found at: " + filePath);
         }
     }
 }
