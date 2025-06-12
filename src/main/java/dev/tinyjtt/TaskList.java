@@ -9,10 +9,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.UUID;
 
 public class TaskList {
-    private static final String FILE_PATH = "tasks.json";
     @JsonProperty("tasks")
     ArrayList<Task> tasks = new ArrayList<>();
 
@@ -20,8 +18,8 @@ public class TaskList {
         tasks.add(task);
     }
 
-    public void removeTask(Task task) {
-        tasks.remove(task);
+    public void removeTask(int index) {
+        tasks.remove(index);
     }
 
     public void updateTask(int index, String descriptionUpdated) {
@@ -57,20 +55,13 @@ public class TaskList {
         return tasks;
     }
 
-    public Task getTaskByUuid(UUID uuid) {
-        return this.tasks.stream()
-                .filter(task -> task.getUuid().equals(uuid))
-                .findFirst()
-                .orElse(null);
-    }
-
-    public void saveToFile() {
+    public void saveToFile(String filePath) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
         try {
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(FILE_PATH), tasks);
-            System.out.println("Arquivo JSON salvo com sucesso em: " + new File(FILE_PATH).getAbsolutePath());
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(filePath), tasks);
+            System.out.println("Arquivo JSON salvo com sucesso em: " + new File(filePath).getAbsolutePath());
         } catch (IOException e) {
             System.err.println("Erro ao salvar arquivo JSON: " + e.getMessage());
         }
