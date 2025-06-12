@@ -3,7 +3,6 @@ package dev.tinyjtt;
 import java.io.File;
 import java.io.IOException;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -11,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class TaskList {
+    private static final String DEFAULT_FILE_PATH = "tasks.json";
     @JsonProperty("tasks")
     ArrayList<Task> tasks = new ArrayList<>();
 
@@ -55,31 +55,40 @@ public class TaskList {
         return tasks;
     }
 
-    public void saveToFile(String filePath) {
+    public void saveToFile() {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-
         try {
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(filePath), tasks);
-            System.out.println("JSON File successfully created at: " + new File(filePath).getAbsolutePath());
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(DEFAULT_FILE_PATH), tasks);
+            System.out.println("Tasks saved to: " + DEFAULT_FILE_PATH);
         } catch (IOException e) {
-            System.err.println("Error: " + e.getMessage());
+            System.err.println("Error while saving: " + e.getMessage());
         }
     }
 
-    public void loadFromFile(String filePath) {
+    public static TaskList loadFromFile() {
         ObjectMapper objectMapper = new ObjectMapper();
-        File file = new File(filePath);
-
+        File file = new File(DEFAULT_FILE_PATH);
+        TaskList taskList = new TaskList();
         if (file.exists()) {
             try {
-                tasks = objectMapper.readValue(file, objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Task.class));
-                System.out.println("Tasks loaded from: " + filePath);
+                taskList.tasks = objectMapper.readValue(
+                        file,
+                        objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Task.class)
+                );
             } catch (IOException e) {
                 System.err.println("Error while loading: " + e.getMessage());
             }
         } else {
-            System.out.println("File not found at: " + filePath);
+            try {
+                if (file.createNewFile()) {
+                    // Salva lista vazia para inicializar o arquivo
+                    taskList.saveToFile();
+                    System.out.println("Arquivo criado: " + DEFAULT_FILE_PATH);
+                }
+            } catch (IOException e) {
+                System.err.println("Erro ao criar arquivo: " + e.getMessage());
+            }
         }
+        return taskList;
     }
 }
