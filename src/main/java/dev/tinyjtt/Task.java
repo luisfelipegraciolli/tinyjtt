@@ -1,5 +1,7 @@
 package dev.tinyjtt;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -7,8 +9,18 @@ public class Task {
     private UUID uuid;
     private String description;
     private TaskStatus status;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updatedAt;
+
+    public Task() {
+        this.uuid = UUID.randomUUID();
+        this.description = "";
+        this.createdAt = new Date();
+        this.updatedAt = new Date();
+        this.status = TaskStatus.Pending;
+    }
 
     public Task(String description, TaskStatus status) {
         this.description = description;
