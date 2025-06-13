@@ -59,7 +59,6 @@ public class TaskList {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(DEFAULT_FILE_PATH), tasks);
-            System.out.println("Tasks saved to: " + DEFAULT_FILE_PATH);
         } catch (IOException e) {
             System.err.println("Error while saving: " + e.getMessage());
         }
@@ -81,12 +80,10 @@ public class TaskList {
         } else {
             try {
                 if (file.createNewFile()) {
-                    // Salva lista vazia para inicializar o arquivo
                     taskList.saveToFile();
-                    System.out.println("Arquivo criado: " + DEFAULT_FILE_PATH);
                 }
             } catch (IOException e) {
-                System.err.println("Erro ao criar arquivo: " + e.getMessage());
+                System.err.println("An Error occurred while creating the file: " + e.getMessage());
             }
         }
         return taskList;
