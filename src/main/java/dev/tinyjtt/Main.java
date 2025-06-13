@@ -5,11 +5,11 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String[] args) {
-        String command = args[0];
-        if (args.length < 1) {
+        if (args.length < 2) {
             System.out.println("Welcome to TinyJTT, A Tiny Java Task Tracker :)\n type 'tinyjtt help' for more information");
             return;
         }
+        String command = args[0];
         TaskList taskList = TaskList.loadFromFile();
         String statusCap;
         int taskIndex;
@@ -44,15 +44,15 @@ public class Main {
                 System.out.println("Task removed at index: " + args[1]);
                 break;
             case "update":
-                String updateddesc = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
+                String updateDescription = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
                 TaskList.loadFromFile();
-                taskList.updateTask(Integer.parseInt(args[1]), updateddesc);
+                taskList.updateTask(Integer.parseInt(args[1]), updateDescription);
                 taskList.saveToFile();
                 System.out.println("Task updated at index: " + args[1]);
                 break;
             case "mark-in-progress":
                 // 1. Check if enough arguments are provided
-                if (args.length < 2) {
+                if (args.length == 2) {
                     System.out.println("Error: Please provide the task index to mark as in progress.");
                     System.out.println("Usage: tinyjtt mark-in-progress <task_index>");
                     break; // Exit the switch case
@@ -63,7 +63,7 @@ public class Main {
                     taskIndex = Integer.parseInt(args[1]);
                 } catch (NumberFormatException e) {
                     System.out.println("Error: Invalid task index. Please provide a number.");
-                    System.out.println("Usage: yourProgramName mark-in-progress <task_index>");
+                    System.out.println("Usage: tinyjtt mark-in-progress <task_index>");
                     break; // Exit the switch case
                 }
 
@@ -82,7 +82,7 @@ public class Main {
                 System.out.println("Task marked as in progress at index " + taskIndex);
                 break;
             case "mark-done":
-                if (args.length < 2) {
+                if (args.length == 2) {
                     System.out.println("Error: Please provide the task index to mark as in progress.");
                     System.out.println("Usage: tinyjtt mark-in-progress <task_index>");
                     break;
@@ -109,7 +109,7 @@ public class Main {
                 System.out.println("Task marked as done at index " + args[1]);
                 break;
             case "mark-pending":
-                if (args.length < 2) {
+                if (args.length == 2) {
                     System.out.println("Error: Please provide the task index to mark as in progress.");
                     System.out.println("Usage: tinyjtt mark-in-progress <task_index>");
                     break;
@@ -144,7 +144,7 @@ public class Main {
 
                     // I can't add in-progress as an Enum nor inprogess to be capitalized (for loop to cap the I and P)
                     // when marking the task as In Progress.
-                    // if the user types either list in-progress or inprogress or Inprogress or In-Progress
+                    // if the user types either list in-progress or inprogress or In-Progress
                     // should mark the task as In Progress :)
                     String userInput = args[1].toLowerCase().replace("-", "");
 
